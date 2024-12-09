@@ -4,7 +4,7 @@ import tasksController from '../controllers/tasks.controller.js';
 const router = Router();
 
 router.route('/')
-.get(tasksController.getTask)
+.get(tasksController.getTasks)
 .post(tasksController.createTask)
 
 router

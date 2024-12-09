@@ -2,14 +2,14 @@ import { Task } from '../models/tasks.js';
 import logger from '../logs/logger.js';
 
 async function getTasks(req, res) {
-    const { UserId } = req.user;
+    const { userId } = req.user;
     const { name } = req.body;
     try {
         const tasks = await Task.findAll({
             attributes: ['id', 'name', 'done'],
             order: ['name', 'ASC'],
             where: {
-                UserId,
+                UserId:userId,
             },
         });
         res.json(tasks);
@@ -21,12 +21,12 @@ async function getTasks(req, res) {
 }
 
 async function createTask(req, res){
-    const { UserId } = req.user;
+    const { userId } = req.user;
     const { name } = req.body;
     try {
         const task = await Task.create({
             name,
-            UserId,
+            UserId:userId,
         });
         res.json(task);
     }catch(err){
@@ -35,14 +35,14 @@ async function createTask(req, res){
     }
 }
 async function getTask(req, res) {
-    const { UserId } = req.user;
+    const { userId } = req.user;
     const { id } = req.params;
     try {
         const task = await Task.findOne({
             attributes: ['name', 'done'],
             where: {
                 id,
-                UserId,
+                UserId:userId,
             },
         });
         res.json(task);
@@ -54,11 +54,11 @@ async function getTask(req, res) {
 }
 
 async function updateTask(req, res) {
-    const { UserId } = req.user;
+    const { userId } = req.user;
     const { id } = req.params;
     const { name } = req.body;
     try {
-        const task = await Task.update({name}, {where: {id,UserId}});
+        const task = await Task.update({name}, {where: {id,UserId:userId}});
         if (task[0] === 0)
             return res.status(404).json({message: 'Task not found'});
         res.json(task);
@@ -70,12 +70,12 @@ async function updateTask(req, res) {
 }
 
 async function taskDone(req,res){
-    const { UserId }= req.user;
+    const { userId }= req.user;
     const {id} = req.params;
     const { done } = req.body;
 
     try{
-        const task = await Task.update({ done }, {where: { id, UserId } });
+        const task = await Task.update({ done }, {where: { id, UserId:userId } });
         if (task[0] === 0)
             return res.status(404).json({message: 'Task not found'});
         res.json(task);
@@ -87,11 +87,11 @@ async function taskDone(req,res){
 }
 
 async function deleteTask(req,res){
-    const { UserId }= req.user;
+    const { userId }= req.user;
     const {id} = req.params;
 
     try{
-        const task = await Task.destroy({ done }, {where: { id, UserId } });
+        const task = await Task.destroy({ done }, {where: { id, UserId:userId } });
         //destroy no es recomendado, solo por temas didacticos
         if (task[0] === 0)
             return res.status(404).json({message: 'Task not found'});

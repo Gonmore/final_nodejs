@@ -17,7 +17,7 @@ async function login (req, res, next) {
 
         const secret = process.env.JWT_SECRET
         const seconds = process.env.JWT_EXPIRES_SECONDS
-        const token = jwt.sign({userId: user.id}, secret, {expiresIn: eval(seconds)
+        const token = jwt.sign({UserId: user.id}, secret, {expiresIn: eval(seconds)
 
         });
         res.json({token});

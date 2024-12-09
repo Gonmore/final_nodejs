@@ -26,7 +26,7 @@ async function createTask(req, res){
     try {
         const task = await Task.create({
             name,
-            userId: userId,
+            UserId: userId,
         });
         res.json(task);
     }catch(err){

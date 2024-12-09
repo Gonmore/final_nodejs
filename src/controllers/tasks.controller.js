@@ -9,7 +9,7 @@ async function getTasks(req, res) {
             attributes: ['id', 'name', 'done'],
             order: ['name', 'ASC'],
             where: {
-                userId,
+                UserId: userId,
             },
         });
         res.json(tasks);
@@ -42,7 +42,7 @@ async function getTask(req, res) {
             attributes: ['name', 'done'],
             where: {
                 id,
-                userId,
+                UserId:userId,
             },
         });
         res.json(task);
@@ -58,7 +58,7 @@ async function updateTask(req, res) {
     const { id } = req.params;
     const { name } = req.body;
     try {
-        const task = await Task.update({name}, {where: {id,userId}});
+        const task = await Task.update({name}, {where: {id,UserId:userId}});
         if (task[0] === 0)
             return res.status(404).json({message: 'Task not found'});
         res.json(task);

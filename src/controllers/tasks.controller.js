@@ -3,11 +3,8 @@ import logger from '../logs/logger.js';
 
 async function getTasks(req, res) {
     const { userId } = req.user;
-    const { name } = req.body;
     try {
         const tasks = await Task.findAll({
-            attributes: ['id', 'name', 'done'],
-            order: ['name', 'ASC'],
             where: {
                 UserId:userId,
             },
